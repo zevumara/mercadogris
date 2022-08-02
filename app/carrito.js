@@ -1,23 +1,25 @@
 import { database } from "./database.js";
 import * as eventos from "./eventos.js";
 
+// Elementos
 let el_carrito;
 let el_contador;
+const el_total = document.querySelector("#total");
+const el_suma = document.querySelector("#suma");
 
+// Variables generales
 let items = [];
 let contador = 0;
 
 // HTML de cada elemento a renderizar
 const html = (id, nombre, precio, cantidad) => {
 	return `
-    <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             <div class="fw-bold">${nombre}</div>
-            <small>$ ${precio}</small>
+            <small>$ ${numeral(precio).format("0,0.00")}</small>
         </div>
         <span id="item_${id}_cantidad" class="badge bg-primary pill py-3 px-4">${cantidad}</span>
-        <a id="item_${id}" class="btn border-0 py-2" href="#"><i class="bi bi-cart-dash-fill"></i></a>
-    </li>`;
+        <a id="item_${id}" class="btn border-0 py-2" href="#"><i class="bi bi-cart-dash-fill"></i></a>`;
 };
 
 // Inicia el carrito
@@ -92,16 +94,26 @@ function renderizar() {
 	el_carrito.innerHTML = "";
 	// Si hay productos en el carrito los renderiza
 	if (items.length > 0) {
+		let total = 0;
 		items.forEach((item) => {
 			let producto = database.find((producto) => producto.id === item.id_producto);
-			const div = document.createElement("div");
-			div.innerHTML = html(producto.id, producto.nombre, producto.precio, item.cantidad);
-			el_carrito.append(div);
+			const li = document.createElement("li");
+			li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-start");
+			li.innerHTML = html(producto.id, producto.nombre, producto.precio, item.cantidad);
+			el_carrito.append(li);
 			// Crea evento del botón Quitar de carrito
 			eventos.ev_quitar_del_carrito(item);
+			// Cálculo del total
+			total += producto.precio * item.cantidad;
 		});
+		// Actualizar el cálculo total
+		let pesos = numeral(total).format("0,0.00"); // Librería para convertir números a pesos
+		el_suma.innerHTML = pesos;
+		el_total.classList.remove("d-none");
 	} else {
 		// Si no hay productos renderiza el mensaje
+		el_suma.innerHTML = 0;
+		el_total.classList.add("d-none");
 		el_carrito.innerHTML = "<p>No hay productos en el carrito.</p>";
 	}
 }

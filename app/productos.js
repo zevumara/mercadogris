@@ -14,7 +14,7 @@ const html = ({ id, nombre, descripcion, imagen, precio }) => {
                 ${descripcion}
             </p>
             <div class="input-group justify-content-center">
-                <span class="input-group-text">$ ${precio}</span>
+                <span class="input-group-text">$ ${numeral(precio).format("0,0.00")}</span>
                 <a href="#" class="btn btn-primary" id="producto_${id}"><i class="bi bi-cart-plus me-2"></i>Agregar</a>
             </div>
         </div>

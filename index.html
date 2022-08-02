@@ -21,13 +21,13 @@
 						<a href="./" class="navbar-brand fs-4 fw-bold">Mercado Gris</a>
 					</div>
 					<div class="col-md-12 col-lg-10">
-						<form id="buscador" class="input-group" role="search">
-							<input
-								type="search"
-								class="form-control"
-								placeholder="Buscar productos..."
-								aria-label="Buscar producto"
-							/>
+						<form id="buscador" class="input-group" role="search" action="submit">
+                            <input class="form-control"
+                                type="search"
+                                autocomplete="off"
+                                placeholder="Buscar productos..."
+                                aria-label="Buscar producto"
+                            >
 							<button class="btn btn-secondary" type="submit">
 								<i class="bi bi-search"></i>
 							</button>
@@ -71,14 +71,14 @@
                     <p>No hay productos en el carrito.</p>
                     <!-- contenido cargado desde javascript -->
 				</ul>
-                <!--
-				<hr class="my-4" />
+                <div id="total" class="d-none">
+                    <hr class="my-4" />
 
-				<div class="d-flex justify-content-between mb-5">
-					<h5 class="text-secondary">Total</h5>
-					<h5>$ 321.000</h5>
-				</div>
-                -->
+                    <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-secondary">Total</h5>
+                        <h5>$ <span id="suma">321.000</span></h5>
+                    </div>
+                </div>
 			</div>
 		</div>
 
@@ -107,6 +107,7 @@
 			integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 			crossorigin="anonymous"
 		></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 		<script type="module" src="app/app.js"></script>
 	</body>
 </html>
