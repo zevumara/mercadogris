@@ -4,12 +4,12 @@ export function ev_agregar_al_carrito(item) {
     const boton = document.getElementById(`producto_${item.id}`);
     boton.addEventListener('click', (e) => {
         e.preventDefault();
-        carrito.agregar(item.id);
+        carrito.agregar(item);
     });
 }
 
 export function ev_quitar_del_carrito(item) {
-    const boton = document.getElementById(`item_${item.id_producto}`);
+    const boton = document.getElementById(`item_${item.id}`);
     boton.addEventListener('click', (e) => {
         e.preventDefault();
         carrito.quitar(item);

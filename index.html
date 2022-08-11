@@ -14,7 +14,10 @@
 		<title>Mercado Gris</title>
 	</head>
 	<body>
-		<header class="py-3 text-bg-dark">
+        <div id="loading_bar" class="progress rounded-0 fixed-bottom d-none">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+        </div>
+		<header class="text-bg-dark sticky-top bg-secondary pt-3">
 			<div class="container-xxl">
 				<div class="row align-items-center">
 					<div class="col-2 d-none d-lg-block">
@@ -27,6 +30,7 @@
                                 autocomplete="off"
                                 placeholder="Buscar productos..."
                                 aria-label="Buscar producto"
+                                id="buscador_input"
                             >
 							<button class="btn btn-secondary" type="submit">
 								<i class="bi bi-search"></i>
@@ -45,22 +49,22 @@
 					</div>
 				</div>
 			</div>
+            <nav class="navbar navbar-expand-sm navbar-dark bg-secondary pb-0">
+                <div class="container-fluid justify-content-center">
+                    <ul class="navbar-nav fw-light text-center">
+                        <li class="nav-item mx-2">
+                            <a data-categoria="MLA1055" class="nav-link active bg-white text-dark" aria-current="page" href="#">Celulares y Teléfonos</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a data-categoria="MLA436380" class="nav-link" href="#">Muebles para el Hogar</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a data-categoria="MLA1744" class="nav-link" href="#">Autos y Camionetas</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 		</header>
-		<nav class="navbar navbar-expand-sm navbar-dark bg-secondary shadow">
-			<div class="container-fluid justify-content-center">
-				<ul class="navbar-nav fs-5 fw-light text-center">
-					<li class="nav-item mx-2">
-						<a class="nav-link active" aria-current="page" href="#">Electrónica</a>
-					</li>
-					<li class="nav-item mx-2">
-						<a class="nav-link" href="#">Muebles</a>
-					</li>
-					<li class="nav-item mx-2">
-						<a class="nav-link" href="#">Vehículos</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
 		<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="carrito" aria-labelledby="carrito">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" id="offcanvasExampleLabel">Mi carrito</h5>
@@ -82,24 +86,38 @@
 			</div>
 		</div>
 
+        <div id="loading" class="p-5 m-5 text-center text-secondary d-none">
+            <img src="/assets/img/loading.svg" alt="">
+            <p><small>Cargando contenido... Por favor espere.</small></p>
+        </div>
+
 		<main class="album">
-			<div class="container-xxl py-5">
+			<div class="container-xxl pt-4 pb-3">
 				<div id="container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <!-- contenido cargado desde javascript -->
                 </div>
 			</div>
 		</div>
-        
-		<footer class="text-muted small pb-3">
+        <!--
+        <nav aria-label="Page navigation example">
+            <ul class="pagination pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link bg-secondary border-0">2</span>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+            </ul>
+        </nav>
+        -->
+		<footer class="text-muted small py-2">
 			<div class="container-xxl">
-				<p class="float-end mb-1">
+				<p class="text-secondary text-center pb-2">
+					
+                </p>
+				<p class="float-end">
 					<a href="#">Volver arriba</a>
 				</p>
-				<p class="mb-1">En <strong>MercadoGris</strong> somos la plataforma mas grande de productos de segunda mano.</p>
-				<p class="mb-0">
-					Para vender tu artículo <a href="/">visita la siguiente sección</a> o ponte en
-					<a href="/docs/5.2/getting-started/introduction/">contacto con nosotros</a>.
-				</p>
+				<p>Somos <strong>Mercado Gris</strong>, la plataforma más grande de productos aftermarket, OEM y refurbished.</p>
 			</div>
 		</footer>
 		<script

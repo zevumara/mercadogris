@@ -1,4 +1,3 @@
-import { database } from "./database.js";
 import * as eventos from "./eventos.js";
 
 // Elementos
@@ -49,13 +48,14 @@ const actualizar_contador = () => {
 };
 
 // Agrega un item al carrito
-export function agregar(id_producto) {
+export function agregar(producto) {
 	// Contador general
 	contador++;
-	actualizar_contador();
-	let item = items.find((item) => item.id_producto === id_producto);
+    actualizar_contador();
+    // Verifica si el item ya existe en la lista
+	let item = items.find((item) => item.id === producto.id);
 	// Si el item ya está en el carrito aumenta la cantidad, de lo contrario agrega un nuevo item
-	item ? item.cantidad++ : items.push({ id_producto: id_producto, cantidad: 1 });
+	item ? item.cantidad++ : items.push({ ...producto, cantidad: 1 });
 	guardar_carrito();
 	renderizar();
 }
@@ -96,15 +96,14 @@ function renderizar() {
 	if (items.length > 0) {
 		let total = 0;
 		items.forEach((item) => {
-			let producto = database.find((producto) => producto.id === item.id_producto);
 			const li = document.createElement("li");
 			li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-start");
-			li.innerHTML = html(producto.id, producto.nombre, producto.precio, item.cantidad);
+			li.innerHTML = html(item.id, item.nombre, item.precio, item.cantidad);
 			el_carrito.append(li);
 			// Crea evento del botón Quitar de carrito
 			eventos.ev_quitar_del_carrito(item);
 			// Cálculo del total
-			total += producto.precio * item.cantidad;
+			total += item.precio * item.cantidad;
 		});
 		// Actualizar el cálculo total
 		let pesos = numeral(total).format("0,0.00"); // Librería para convertir números a pesos
