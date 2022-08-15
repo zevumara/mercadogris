@@ -3,6 +3,7 @@ import * as eventos from "./eventos.js";
 // Elementos
 let el_carrito;
 let el_contador;
+let modal;
 const el_total = document.querySelector("#total");
 const el_suma = document.querySelector("#suma");
 
@@ -22,9 +23,10 @@ const html = (id, nombre, precio, cantidad) => {
 };
 
 // Inicia el carrito
-export function iniciar(elemento_carrito, elemento_contador) {
+export function iniciar(elemento_carrito, elemento_contador, elemento_modal) {
 	el_carrito = elemento_carrito;
-	el_contador = elemento_contador;
+    el_contador = elemento_contador;
+    modal = elemento_modal;
 	// Cargar carrito del storage
 	if (localStorage.getItem("carrito")) {
 		items = JSON.parse(localStorage.getItem("carrito"));
@@ -76,6 +78,43 @@ export function quitar(item) {
 	renderizar();
 }
 
+export function pagar() {
+    api_mercado_pago();
+}
+
+// Conexión con API de Mercado Pago para realizar la compra
+const api_mercado_pago = async () => {
+    modal.show();
+    const lista_de_compras = items.map((item) => {
+        let producto = {
+            title: item.nombre,
+            description: item.nombre,
+            picture_url: `https://http2.mlstatic.com/D_604790-${item.imagen}-V.webp`,
+            category_id: item.id,
+            quantity: item.cantidad,
+            currency_id: "ARS",
+            unit_price: item.precio
+        };
+        return producto;
+    }) 
+    try {
+        const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer TEST-8833293876625925-081318-eee760da7dbe58f4a684f933b7f48738-23398645",
+            },
+            body: JSON.stringify({
+                items: lista_de_compras
+            })
+        });
+        const result = await response.json();
+        window.open(result.init_point, "_self");
+    } catch (error) {
+        modal.hide();
+        el_carrito.innerHTML = `<p>${error}</p>`;
+    }
+}
+
 // Guardar estado del carrito en el storage
 function guardar_carrito() {
 	const carrito = JSON.stringify(items);
@@ -101,7 +140,7 @@ function renderizar() {
 			li.innerHTML = html(item.id, item.nombre, item.precio, item.cantidad);
 			el_carrito.append(li);
 			// Crea evento del botón Quitar de carrito
-			eventos.ev_quitar_del_carrito(item);
+			eventos.quitar_del_carrito(item);
 			// Cálculo del total
 			total += item.precio * item.cantidad;
 		});

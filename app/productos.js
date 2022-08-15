@@ -1,12 +1,8 @@
 import * as eventos from './eventos.js';
 
-// Pop-up de mensaje de "cargando contenido"
-var modalCargando = new bootstrap.Modal(document.getElementById('modalCargando'), {
-    keyboard: false,
-});
-
 // Elementos
 let el_productos;
+let modal;
 const el_paginado = document.querySelector("#paginado");
 
 // Variables generales
@@ -33,7 +29,7 @@ const html = ({ id, nombre, descripcion, imagen, precio }) => {
 
 // Carga los productos según categoría y página actual
 const productos_por_categoria = async (categoria, offset) => {
-    modalCargando.show();
+    modal.show();
     // Actualizo categoría actual
     categoria_seleccionada = categoria;
     try {
@@ -52,12 +48,13 @@ const productos_por_categoria = async (categoria, offset) => {
     } catch (error) {
         el_productos.innerHTML = `<p>${error}</p>`;
     }
-    modalCargando.hide();
+    modal.hide();
 };
 
 // Define el elemento a renderizar y los renderiza por primera vez
-export function iniciar(elemento_productos) {
+export function iniciar(elemento_productos, elemento_modal) {
     el_productos = elemento_productos;
+    modal = elemento_modal;
     productos_por_categoria('MLA1055', 0);
 }
 
@@ -73,7 +70,7 @@ export function buscar(keywords) {
 
 // Renderiza productos según categoría y keywords (buscador)
 const productos_por_keywords = async (keywords, offset) => {
-    modalCargando.show();
+    modal.show();
     try {
         const response = await fetch(`https://api.mercadolibre.com/sites/MLA/search?category=${categoria_seleccionada}&q=${keywords}&limit=${productos_por_pagina}&offset=${offset}`);
         const result = await response.json();
@@ -92,7 +89,7 @@ const productos_por_keywords = async (keywords, offset) => {
     } catch (error) {
         el_productos.innerHTML = `<p>${error}</p>`;
     }
-    modalCargando.hide();
+    modal.hide();
 };
 
 // Renderizado de cada producto
@@ -112,7 +109,7 @@ function renderizar(item) {
     div.innerHTML = html(producto);
     el_productos.append(div);
     // Crea evento del botón Agregar al carrito
-    eventos.ev_agregar_al_carrito(producto);
+    eventos.agregar_al_carrito(producto);
 }
 
 // Paginado

@@ -8,12 +8,12 @@ const el_contador = document.querySelector("#contador");
 const el_buscador_form = document.getElementById("buscador");
 const el_buscador_input = document.getElementById("buscador_input");
 const els_categoria = document.querySelectorAll(".nav-link");
+const btn_comprar = document.querySelector("#comprar");
 
-// Productos
-productos.iniciar(el_productos);
-
-// Carrito
-carrito.iniciar(el_carrito, el_contador);
+// Pop-up de mensaje de "cargando contenido"
+const modal = new bootstrap.Modal(document.getElementById('modalCargando'), {
+    keyboard: false,
+});
 
 // Buscador
 el_buscador_form.addEventListener("submit", (e) => {
@@ -37,4 +37,18 @@ els_categoria.forEach(item => {
         // Carga la categoría
         productos.categoria(item.dataset.categoria);
     });
+});
+
+// Botón comprar del carrito
+btn_comprar.addEventListener("click", (e) => {
+    e.preventDefault();
+    carrito.pagar();
+});
+
+// Inciar aplicación cuando el documento esté cargado
+document.addEventListener('DOMContentLoaded', (e) => {
+    // Productos
+    productos.iniciar(el_productos, modal);
+    // Carrito
+    carrito.iniciar(el_carrito, el_contador, modal); 
 });
