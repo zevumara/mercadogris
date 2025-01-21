@@ -2,7 +2,7 @@
 
 This is my final project for "JavaScript" course at Coderhouse.
 
-**Live:** https://zevamaru.github.io/mercadogris/
+**Live:** https://zevumara.github.io/mercadogris/
 
 ## What I did 👇
 - I made it from scratch, using vanilla JavaScript and [Bootstrap](https://getbootstrap.com/).
